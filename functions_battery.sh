@@ -1,23 +1,24 @@
 #!/usr/bin/sh
 # Tested working on OSX Mojave
 
+__batt_yellow=$(tput setaf 184)
+__batt_green=$( tput setaf 120)
+__batt_red=$(   tput setaf 160)
+__batt_reset="$(tput init)"
+
 # I need to cut field-1 for this to trim evenly
 # print the battery state with colors based on level
 function __batt_state() {
   bstate=$(pmset -g batt | awk '/charging|discharging|charged/ {print $4}' | cut -f1 -d';')
-  yellow=$(tput setaf 184)
-  green=$( tput setaf 120)
-  red=$(   tput setaf 160)
-  reset="$(tput init)"
   case "$bstate" in
     charged)
-      echo "$green$bstate$reset"
+      echo "$__batt_green$bstate$__batt_reset"
       ;;
     charging)
-      echo "$yellow$bstate$reset"
+      echo "$__batt_yellow$bstate$__batt_reset"
       ;;
     discharging)
-      echo "$red$bstate$reset"
+      echo "$__batt_red$bstate$__batt_reset"
       ;;
     *)
       echo $bstate
@@ -32,9 +33,9 @@ function __batt_pct() {
     echo "$bpct%"
   else
     case 1 in
-      $(($bpct <= 15))) echo "$red$bpct%$reset" ;;
-      $(($bpct <= 65))) echo "$yellow$bpct%$reset" ;;
-                     *) echo "$green$bpct%$reset" ;;
+      $(($bpct <= 15))) echo "$__batt_red$bpct%$__batt_reset" ;;
+      $(($bpct <= 65))) echo "$__batt_yellow$bpct%$__batt_reset" ;;
+                     *) echo "$__batt_green$bpct%$__batt_reset" ;;
     esac
   fi
 }
