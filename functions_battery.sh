@@ -26,7 +26,14 @@ function __batt_state() {
 }
 
 function __batt_pct() {
-  pmset -g batt | egrep '([0-9]+\%).*' -o | cut -f1 -d';'
+  bpct=$(pmset -g batt | egrep '([0-9]+)%.*' -o | cut -f1 -d';')
+  bpct=${bpct%?} # remove last char (%)
+  case 1 in
+    $(($bpct <= 15))) echo "$red$bpct%$reset" ;;
+    $(($bpct <= 65))) echo "$yellow$bpct%$reset" ;;
+                   *) echo "$green$bpct%$reset" ;;
+  esac
+
 }
 
 # now, as a function, we can easily handle a conditional
