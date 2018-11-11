@@ -5,22 +5,19 @@
 # print the battery state with colors based on level
 function __batt_state() {
   bstate=$(pmset -g batt | awk '/charging|discharging|charged/ {print $4}' | cut -f1 -d';')
-  yellow="$(printf '\033[33m')"
-  green="$( printf '\033[32m')"
-  red="$(   printf '\033[31m')"
-  reset="$( printf '\033[00m')"
-  crd='charged'
-  crg='charging'
-  dcg='discharging'
+  yellow=$(tput setaf 184)
+  green=$( tput setaf 120)
+  red=$(   tput setaf 160)
+  reset="$(tput reset)"
   case "$bstate" in
     charged)
-      echo "$green$crd$reset"
+      echo "$green$bstate$reset"
       ;;
     charging)
-      echo "$yellow$crg$reset"
+      echo "$yellow$bstate$reset"
       ;;
     discharging)
-      echo "$red$dcg$reset"
+      echo "$red$bstate$reset"
       ;;
     *)
       echo $bstate
@@ -38,4 +35,3 @@ function __batt_time() {
   btime=${btime:2}
   if [[ "$btime" == "0:00" ]]; then echo ''; else echo " [$btime]"; fi
 }
-
