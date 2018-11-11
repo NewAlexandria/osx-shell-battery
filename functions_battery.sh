@@ -43,6 +43,5 @@ function __batt_pct() {
 # now, as a function, we can easily handle a conditional
 function __batt_time() {
   btime=$(pmset -g batt | grep -Eo '([0-9][0-9]|[0-9]):[0-5][0-9]')
-  btime=${btime:2}
   if [[ "$btime" == "0:00" ]]; then echo ''; else echo " [$btime]"; fi
 }
