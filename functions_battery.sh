@@ -48,4 +48,5 @@ function __batt_time() {
   if [[ "$btime" == "0:00" ]]; then echo ''; else echo ", $btime left"; fi; fi
 }
 
-export PS1="[\$(__batt_pct), \$(__batt_state)\$(__batt_time)] [\d \t] $ "
+# one possible use for these bits of code
+# export PS1="[\$(__batt_pct), \$(__batt_state)\$(__batt_time)] [\d \t] $ "
