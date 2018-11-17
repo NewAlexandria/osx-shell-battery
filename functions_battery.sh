@@ -43,5 +43,9 @@ function __batt_pct() {
 # now, as a function, we can easily handle a conditional
 function __batt_time() {
   btime=$(pmset -g batt | grep -Eo '([0-9][0-9]|[0-9]):[0-5][0-9]')
-  if [[ "$btime" == "0:00" ]]; then echo ''; else echo " [$btime]"; fi
+  etime=$(pmset -g batt | grep -Eo 'estimate')
+  if [[ "$etime" == "estimate" ]]; then echo ", estimating"; else
+  if [[ "$btime" == "0:00" ]]; then echo ''; else echo ", $btime left"; fi; fi
 }
+
+export PS1="[\$(__batt_pct), \$(__batt_state)\$(__batt_time)] [\d \t] $ "
