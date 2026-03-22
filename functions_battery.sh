@@ -1,10 +1,17 @@
 #!/usr/bin/sh
 # Tested working on OSX Mojave
 
-__batt_yellow=$(tput setaf 184)
-__batt_green=$( tput setaf 120)
-__batt_red=$(   tput setaf 160)
-__batt_reset="$(tput init)"
+if tput setaf 184 &>/dev/null; then
+  __batt_yellow=$(tput setaf 184)
+  __batt_green=$( tput setaf 120)
+  __batt_red=$(   tput setaf 160)
+  __batt_reset="$(tput init)"
+else
+  __batt_yellow=''
+  __batt_green=''
+  __batt_red=''
+  __batt_reset=''
+fi
 
 # I need to cut field-1 for this to trim evenly
 # print the battery state with colors based on level
